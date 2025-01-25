@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package ktcloud.api.compute.server;
+
+option go_package = "github.com/choonho/ktcloudservice/proto";
+
+import "google/api/annotations.proto";
+import "google/api/http.proto";
+
+// Nova Server Service
+service NovaServer {
+  // Create a server (gRPC + REST)
+  rpc CreateServer(CreateServerRequest) returns (ServerResponse) {
+    option (google.api.http) = {
+      post: "/v1/nova/servers"
+      body: "*"
+    };
+  }
+
+  // Get server details (gRPC + REST)
+  rpc GetServer(GetServerRequest) returns (ServerResponse) {
+    option (google.api.http) = {
+      get: "/v1/nova/servers/{server_id}"
+    };
+  }
+
+  // Delete a server (gRPC + REST)
+  rpc DeleteServer(DeleteServerRequest) returns (DeleteServerResponse) {
+    option (google.api.http) = {
+      delete: "/v1/nova/servers/{server_id}"
+    };
+  }
+
+  // List servers (gRPC + REST)
+  rpc ListServers(ListServersRequest) returns (ListServersResponse) {
+    option (google.api.http) = {
+      get: "/v1/nova/servers"
+    };
+  }
+}
+
+// Request and response messages
+message CreateServerRequest {
+  string name = 1;
+  string image_id = 2;
+  string flavor_id = 3;
+  map<string, string> metadata = 4; // Optional metadata
+}
+
+message GetServerRequest {
+  string server_id = 1; // Server ID to retrieve
+}
+
+message DeleteServerRequest {
+  string server_id = 1; // Server ID to delete
+}
+
+message ServerResponse {
+  string server_id = 1;
+  string name = 2;
+  string status = 3;
+  string ip_address = 4;
+}
+
+message DeleteServerResponse {
+  string message = 1;
+}
+
+message ListServersRequest {}
+
+message ListServersResponse {
+  repeated ServerResponse servers = 1; // List of servers
+}
+
