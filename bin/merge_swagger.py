@@ -22,6 +22,23 @@ def merge_swagger_files(file_paths, output_path, title, endpoint=None):
             "title": f"%s API" % title,
             "version": formatted_date,
         },
+        "schemes": [
+            "http",
+            "https"
+        ],
+        "securityDefinitions": {
+            "X-Auth-Token": {
+                "type": "apiKey",
+                "name": "X-Auth-Token",
+                "in": "header",
+                "description": "Enter the OpenStack token in the X-Auth-Token header."
+            }
+          },
+          "security": [
+                {
+                    "X-Auth-Token": []
+                }
+          ],
         "paths": {},
         "definitions": {},  # For OpenAPI 3.x, replace with `components`
     }
