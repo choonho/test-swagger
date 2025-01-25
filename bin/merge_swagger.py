@@ -2,9 +2,13 @@ import json
 import copy
 import os
 
+from datetime import datetime
 from pathlib import Path
 
-def merge_swagger_files(file_paths, output_path, title):
+today = datetime.today()
+formatted_date = today.strftime("%y.%m.%d")
+
+def merge_swagger_files(file_paths, output_path, title, endpoint=None):
     """
     Merge multiple swagger.json files into a single swagger.json file.
 
@@ -16,7 +20,7 @@ def merge_swagger_files(file_paths, output_path, title):
         "swagger": "2.0",  # Update this to "openapi" if using OpenAPI 3.x
         "info": {
             "title": f"%s API" % title,
-            "version": "1.0.0",
+            "version": formatted_date,
         },
         "paths": {},
         "definitions": {},  # For OpenAPI 3.x, replace with `components`
@@ -103,5 +107,7 @@ ENV URLS='[%s]'
     print(f"Dockerfile created at: {dockerfile_path}")
 
 if __name__ == "__main__":
-    env = make_merge("./dist/openapi/ktcloud/api", "./dist/swagger")
+    # export ENDPOINT=http://127.0.0.1 (KONG gateway address)
+    endpoint = os.environ.get("ENDPOINT", None)
+    env = make_merge("./dist/openapi/ktcloud/api", "./dist/swagger", endpoint)
     make_dockerfile("./dist/swagger", env)

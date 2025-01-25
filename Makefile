@@ -43,6 +43,7 @@ all:
 openapi:
 	$(call banner, "Generate OpenAPIv2 json files")
 	$(call build, "openapi")
+	python3 bin/merge_swagger.py
 
 python:
 	$(call banner, "Generate python protobuf")
