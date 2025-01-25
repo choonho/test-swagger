@@ -46,8 +46,8 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:
-          context: /tmp
-          file: /tmp/Dockerfile
+          context: /tmp/swagger
+          file: /tmp/swagger/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ github.event.inputs.docker_org }}/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}
