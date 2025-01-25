@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package ktcloud.api.identity.project;
+
+option go_package = "github.com/choonho/ktcloudservice/proto";
+
+import "google/api/annotations.proto";
+import "google/api/http.proto";
+
+service ProjectService {
+  // Get a project by ID
+  rpc GetProject (GetProjectRequest) returns (GetProjectResponse) {
+    option (google.api.http) = {
+      get: "/v1/project/{project_id}"
+    };
+  }
+
+  // Create a new project
+  rpc CreateProject (CreateProjectRequest) returns (CreateProjectResponse) {
+    option (google.api.http) = {
+      post: "/v1/project"
+      body: "*"
+    };
+  }
+
+  // Delete a project by ID
+  rpc DeleteProject (DeleteProjectRequest) returns (DeleteProjectResponse) {
+    option (google.api.http) = {
+      delete: "/v1/project/{project_id}"
+    };
+  }
+}
+
+message GetProjectRequest {
+  string project_id = 1; // ID of the project to retrieve
+}
+
+message GetProjectResponse {
+  string project_id = 1;
+  string name = 2;       // Project name
+  string description = 3; // Project description
+}
+
+message CreateProjectRequest {
+  string name = 1;       // Project name
+  string description = 2; // Project description
+}
+
+message CreateProjectResponse {
+  string project_id = 1; // ID of the created project
+  string name = 2;       // Project name
+  string description = 3; // Project description
+}
+
+message DeleteProjectRequest {
+  string project_id = 1; // ID of the project to delete
+}
+
+message DeleteProjectResponse {
+  string message = 1; // Confirmation message
+}

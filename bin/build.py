@@ -10,14 +10,13 @@ import click
 from pathlib import Path
 
 PROJECT = 'ktcloud'
-OUTPUT_DOC_FORMAT = 'json'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'template')
 PROTO_DIR = os.path.join(BASE_DIR, 'proto')
 OUTPUT_DIR = os.path.join(BASE_DIR, 'dist')
 ARTIFACT_DIR = os.path.join(BASE_DIR, 'artifact')
 VERSION = os.path.join(BASE_DIR, 'VERSION')
-AVAILABLE_CODES = ['all', 'python', 'go', 'gateway', 'json', 'openapi']
+AVAILABLE_CODES = ['all', 'python', 'go', 'openapi']
 DEFAULT_THIRD_PARTY_DIR = 'third_party/googleapis:third_party/protobuf/src'
 DEFAULT_CODE = 'all'
 REPOSITORY_URL = 'github.com/cloudforet-io/api'
@@ -268,9 +267,6 @@ def build(**params):
     params['target'] = _get_services_from_target(params['target'])
     params['proto_path_list'] = _get_proto_path_list(params['proto_dir'], params['third_party_dir'])
     params['code'] = _get_generate_codes(params['code'])
-
-    if 'openapi' in params['code'] and 'json' not in params['code']:
-        params['code'].insert(0, 'json')
 
     # Compile Protocol Buffers
     for code in params['code']:
