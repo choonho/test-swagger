@@ -218,7 +218,7 @@ def _openapi_compile(proto_file, output_path, proto_path_list, debug):
     """
     Compile .proto files to OpenAPI v2 JSON using protoc-gen-openapiv2
     """
-    cmd = ['protoc', f'--openapiv2_out={output_path}']
+    cmd = ['protoc', f'--openapiv2_out={output_path}' ,'--openapiv2_opt=json_names_for_fields=false']
 
     # Add proto paths
     for proto_path in proto_path_list:
