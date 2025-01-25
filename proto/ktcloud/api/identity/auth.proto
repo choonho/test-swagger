@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package ktcloud.api.identity.user;
+
+option go_package = "github.com/choonho/ktcloudservice/proto";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/http.proto";
+
+// AuthService 정의
+service AuthService {
+  // 인증 요청 (Token 발행)
+  rpc IssueToken (AuthRequest) returns (AuthResponse) {
+    option (google.api.http) = {
+      post: "/v3/auth/tokens"
+      body: "*"
+    };
+  }
+}
+
+// 인증 요청 메시지
+message AuthRequest {
+  // 인증 정보
+  Identity identity = 1 [
+    (google.api.field_behavior) = REQUIRED
+  ];
+  Scope scope = 2;
+}
+
+// 인증 정보
+message Identity {
+  repeated string methods = 1;      // 인증 방법 (e.g., "password")
+  Password password = 2;           // 비밀번호 인증 정보
+}
+
+// 비밀번호 인증 정보
+message Password {
+  User user = 1;                   // 사용자 정보
+}
+
+// 사용자 정보
+message User {
+  Domain domain = 1;               // 도메인 정보
+  string name = 2;                 // 사용자 ID (예: "{{user_id}}")
+  string password = 3;             // 사용자 비밀번호 (예: "{{password}}")
+}
+
+// 도메인 정보
+message Domain {
+  string id = 1;                   // 도메인 ID (예: "default")
+  string name = 2;                 // 도메인 이름 (예: "Default")
+}
+
+// 스코프 정보
+message Scope {
+  Project project = 1;             // 프로젝트 정보
+}
+
+// 프로젝트 정보
+message Project {
+  Domain domain = 1;               // 도메인 정보
+  string name = 2;                 // 프로젝트 이름 (예: "demo")
+}
+
+// 인증 응답 메시지
+message AuthResponse {
+  string token = 1;                // 발행된 토큰 값
+  string issued_at = 2;            // 토큰 발행 시각
+  string expires_at = 3;           // 토큰 만료 시각
+  UserInfo user = 4;               // 인증된 사용자 정보
+  ProjectInfo project = 5;         // 스코프된 프로젝트 정보
+}
+
+// 인증된 사용자 정보
+message UserInfo {
+  string id = 1;                   // 사용자 ID
+  string name = 2;                 // 사용자 이름
+}
+
+// 스코프된 프로젝트 정보
+message ProjectInfo {
+  string id = 1;                   // 프로젝트 ID
+  string name = 2;                 // 프로젝트 이름
+}
+

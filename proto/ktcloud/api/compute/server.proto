@@ -7,68 +7,95 @@ option go_package = "github.com/choonho/ktcloudservice/proto";
 import "google/api/annotations.proto";
 import "google/api/http.proto";
 
-// Nova Server Service
-service NovaServer {
-  // Create a server (gRPC + REST)
-  rpc CreateServer(CreateServerRequest) returns (ServerResponse) {
+// Server service definition
+service ServerService {
+  // Create a new server
+  rpc CreateServer (CreateServerRequest) returns (CreateServerResponse) {
     option (google.api.http) = {
-      post: "/v1/nova/servers"
+      post: "/v2.1/servers"
       body: "*"
     };
   }
-
-  // Get server details (gRPC + REST)
-  rpc GetServer(GetServerRequest) returns (ServerResponse) {
-    option (google.api.http) = {
-      get: "/v1/nova/servers/{server_id}"
-    };
-  }
-
-  // Delete a server (gRPC + REST)
-  rpc DeleteServer(DeleteServerRequest) returns (DeleteServerResponse) {
-    option (google.api.http) = {
-      delete: "/v1/nova/servers/{server_id}"
-    };
-  }
-
-  // List servers (gRPC + REST)
-  rpc ListServers(ListServersRequest) returns (ListServersResponse) {
-    option (google.api.http) = {
-      get: "/v1/nova/servers"
-    };
-  }
 }
 
-// Request and response messages
+// Request message for creating a server
 message CreateServerRequest {
-  string name = 1;
-  string image_id = 2;
-  string flavor_id = 3;
-  map<string, string> metadata = 4; // Optional metadata
+  string flavorRef = 1; // The flavor reference (UUID or URL)
+  string name = 2; // The server name
+  repeated Network networks = 3; // List of network objects
+  string accessIPv4 = 4; // IPv4 address for server access (optional)
+  string accessIPv6 = 5; // IPv6 address for server access (optional)
+  string adminPass = 6; // Administrative password (optional)
+  string availability_zone = 7; // Availability zone (optional)
+  repeated BlockDeviceMappingV2 block_device_mapping_v2 = 8; // Block device mapping (optional)
+  string imageRef = 9; // Image UUID for the server instance (optional)
+  string key_name = 10; // Key pair name (optional)
+  map<string, string> metadata = 11; // Metadata key-value pairs (optional)
+  string config_drive = 12; // Config drive enablement (optional)
+  repeated SecurityGroup security_groups = 13; // Security groups
+  string user_data = 14; // User data script (Base64 encoded, optional)
+  string description = 15; // Free-form description (optional)
+  string hostname = 16; // Hostname to configure (optional)
+  repeated string tags = 17; // List of tags (optional)
+  repeated string trusted_image_certificates = 18; // List of trusted certificate IDs (optional)
+  string host = 19; // Compute service host name (optional)
+  string hypervisor_hostname = 20; // Hypervisor hostname (optional)
+  SchedulerHints scheduler_hints = 21; // Scheduler hints (optional)
 }
 
-message GetServerRequest {
-  string server_id = 1; // Server ID to retrieve
+
+// Network object
+message Network {
+  string uuid = 1; // Network UUID
+  string port = 2; // Port ID
+  string fixed_ip = 3; // Fixed IP address (IPv4)
+  string tag = 4; // Device role tag
 }
 
-message DeleteServerRequest {
-  string server_id = 1; // Server ID to delete
+// Block device mapping v2
+message BlockDeviceMappingV2 {
+  int32 boot_index = 1; // Boot order index
+  string uuid = 2; // UUID of the source resource
+  string source_type = 3; // Source type (e.g., image, snapshot)
+  string destination_type = 4; // Destination type (e.g., volume, local)
+  int32 volume_size = 5; // Volume size (GiB)
+  string tag = 6; // Device role tag
+  string disk_bus = 7; // Disk bus type (e.g., scsi, virtio)
+  string guest_format = 8; // Guest file system format
+  bool delete_on_termination = 9; // Delete volume on termination
 }
 
-message ServerResponse {
-  string server_id = 1;
-  string name = 2;
-  string status = 3;
-  string ip_address = 4;
+// Scheduler hints
+message SchedulerHints {
+  string build_near_host_ip = 1; // Build near specific IP
+  string cidr = 2; // CIDR range for scheduling
+  repeated string different_host = 3; // List of servers to avoid
+  repeated string same_host = 4; // List of servers to colocate with
+  string group = 5; // Server group UUID
+  string target_cell = 6; // Target cell name
 }
 
-message DeleteServerResponse {
-  string message = 1;
+
+message CreateServerResponse {
+  Server server = 1; // Server object containing details of the created server
 }
 
-message ListServersRequest {}
-
-message ListServersResponse {
-  repeated ServerResponse servers = 1; // List of servers
+// Server object
+message Server {
+  string id = 1; // Server UUID
+  repeated Link links = 2; // Links to the server
+  string OS_DCF_diskConfig = 3; // Disk configuration (AUTO or MANUAL)
+  repeated SecurityGroup security_groups = 4; // Security groups
+  string adminPass = 5; // Administrative password (optional)
 }
 
+// Link object
+message Link {
+  string href = 1; // URL to the resource
+  string rel = 2; // Relation type (e.g., self, bookmark)
+}
+
+// Security group object
+message SecurityGroup {
+  string name = 1; // Security group name
+}
