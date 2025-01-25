@@ -1,0 +1,46 @@
+name: Build and Push Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_org: # Docker Organization 
+        description: "DockerHub Organization or Username"
+        required: true
+        default: "cloudeco"
+      image_name: # Docker Image Name
+        description: "Docker Image Name"
+        required: true
+        default: "api_builder"
+      image_tag: # Docker Image Tag
+        description: "Docker Image Tag"
+        required: false
+        default: "latest"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ github.event.inputs.docker_org }}/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}

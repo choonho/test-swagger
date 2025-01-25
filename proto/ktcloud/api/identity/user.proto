@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package ktcloud.api.identity.user;
+
+option go_package = "github.com/choonho/ktcloudservice/proto";
+
+import "google/api/annotations.proto";
+import "google/api/http.proto";
+
+service UserService {
+  rpc GetUser (GetUserRequest) returns (GetUserResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/{user_id}"
+    };
+  }
+}
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message GetUserResponse {
+  string user_id = 1;
+  string name = 2;
+  string email = 3;
+}
