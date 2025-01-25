@@ -51,7 +51,7 @@ def merge_swagger_files(file_paths, output_path, title, endpoint=None):
 
     print(f"Merged swagger.json saved to {output_path}")
 
-def make_merge(proto_path, output_path):
+def make_merge(proto_path, output_path, endpoint):
     # List all swagger directories
     directories = [entry for entry in Path(proto_path).iterdir() if entry.is_dir()]
 
@@ -66,7 +66,7 @@ def make_merge(proto_path, output_path):
     for directory in directories:
         files = [entry for entry in Path(directory).iterdir() if entry.is_file()]
         directory_name = Path(directory).name
-        merge_swagger_files(files, f"%s/%s.json" % (output_path, directory_name), directory_name)
+        merge_swagger_files(files, f"%s/%s.json" % (output_path, directory_name), directory_name, endpoint)
         output = output + f'{{"url": "./ktcloud/%s.json", "name": "%s"}},' % (directory_name, directory_name)
     return output
 
