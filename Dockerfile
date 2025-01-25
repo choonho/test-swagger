@@ -2,10 +2,10 @@
 FROM python:3.9-slim
 
 # Set environment variables
-ENV PROTOC_VERSION 22.3
-ENV GRPC_GATEWAY_VERSION 2.26.0
-ENV BIN_DIR /opt/bin
-ENV PKG_DIR /tmp/pkg
+ENV PROTOC_VERSION=22.3
+ENV GRPC_GATEWAY_VERSION=2.26.0
+ENV BIN_DIR=/opt/bin
+ENV PKG_DIR=/tmp/pkg
 
 COPY pkg/* ${PKG_DIR}/
 
