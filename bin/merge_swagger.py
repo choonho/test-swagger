@@ -109,7 +109,8 @@ ENV URLS='[%s]'
 if __name__ == "__main__":
     # export ENDPOINT=http://127.0.0.1 (KONG gateway address)
     endpoint = os.environ.get("ENDPOINT", None)
-    output_dir = "/tmp/swagger"
+    #output_dir = "/tmp/swagger"
+    output_dir = os.getcwd()
     #env = make_merge("./dist/openapi/ktcloud/api", "./dist/swagger", endpoint)
     env = make_merge("./dist/openapi/ktcloud/api", output_dir,  endpoint)
     make_dockerfile(output_dir, env)
