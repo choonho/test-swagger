@@ -93,11 +93,11 @@ FROM swaggerapi/swagger-ui:latest
 RUN mkdir -p /usr/share/nginx/html/ktcloud/
 
 # Copy application code
-COPY ./*.json /usr/share/nginx/html/ktcloud/
+COPY %s/*.json /usr/share/nginx/html/ktcloud/
 
 ENV URLS='[%s]'
 
-""" % env
+""" % (output_path, env)
 
     # Write the Dockerfile
     dockerfile_path = os.path.join(output_path, "Dockerfile")
@@ -109,5 +109,7 @@ ENV URLS='[%s]'
 if __name__ == "__main__":
     # export ENDPOINT=http://127.0.0.1 (KONG gateway address)
     endpoint = os.environ.get("ENDPOINT", None)
-    env = make_merge("./dist/openapi/ktcloud/api", "./dist/swagger", endpoint)
-    make_dockerfile("./dist/swagger", env)
+    output_dir = "/tmp/swagger"
+    #env = make_merge("./dist/openapi/ktcloud/api", "./dist/swagger", endpoint)
+    env = make_merge("./dist/openapi/ktcloud/api", output_dir,  endpoint)
+    make_dockerfile(output_dir, env)
