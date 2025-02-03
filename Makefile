@@ -1,6 +1,6 @@
 TARGET ?= all
 VERSION ?= v1
-TAG ?= 0.3
+TAG ?= 0.4
 DOCKER_NAME ?= cloudeco/api_builder:${TAG}
 PLATFORM ?= linux/arm64,linux/amd64
 
