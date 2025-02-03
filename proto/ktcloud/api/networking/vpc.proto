@@ -33,6 +33,7 @@ message VPCResponse {
 message CreateVPCRequest {
   string name = 1;
   string cidr = 2;
+  string project_id = 3;
 }
 
 message DeleteVPCRequest {
