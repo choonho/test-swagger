@@ -9,7 +9,7 @@ import "google/api/http.proto";
 
 
 // VPC API 서비스 정의
-service VPCService {
+service VPC {
   rpc CreateVPC(CreateVPCRequest) returns (VPCResponse) {
 	option (google.api.http) = {
 		post: "/v2/vpcs"

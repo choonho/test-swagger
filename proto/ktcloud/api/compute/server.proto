@@ -8,7 +8,7 @@ import "google/api/annotations.proto";
 import "google/api/http.proto";
 
 // Server service definition
-service ServerService {
+service Server {
   // Create a new server
   rpc CreateServer (CreateServerRequest) returns (CreateServerResponse) {
     option (google.api.http) = {

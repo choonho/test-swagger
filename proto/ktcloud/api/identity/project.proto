@@ -7,7 +7,7 @@ option go_package = "github.com/choonho/ktcloudservice/proto";
 import "google/api/annotations.proto";
 import "google/api/http.proto";
 
-service ProjectService {
+service Project {
   // Get a project by ID
   rpc GetProject (GetProjectRequest) returns (GetProjectResponse) {
     option (google.api.http) = {

@@ -9,7 +9,7 @@ import "google/api/field_behavior.proto";
 import "google/api/http.proto";
 
 // AuthService 정의
-service AuthService {
+service Auth {
   // 인증 요청 (Token 발행)
   rpc IssueToken (AuthRequest) returns (AuthResponse) {
     option (google.api.http) = {
