@@ -19,9 +19,9 @@ VERSION = os.path.join(BASE_DIR, 'VERSION')
 AVAILABLE_CODES = ['all', 'python', 'go', 'openapi']
 DEFAULT_THIRD_PARTY_DIR = 'third_party/googleapis:third_party/protobuf/src'
 DEFAULT_CODE = 'all'
-REPOSITORY_URL = 'github.com/cloudforet-io/api'
-GO_MODULE_PATH = f'{REPOSITORY_URL}/dist'
-GO_PREFIX_IMPORT_PATH = f'{GO_MODULE_PATH}/go'
+REPOSITORY_URL = 'github.com/choonho/ktcloudapis'
+GO_MODULE_PATH = f'{REPOSITORY_URL}'
+GO_PREFIX_IMPORT_PATH = f'{GO_MODULE_PATH}'
 
 
 

@@ -5,6 +5,7 @@ FROM python:3.9-slim
 ENV PROTOC_VERSION=22.3
 ENV GRPC_GATEWAY_VERSION=2.26.0
 ENV GO_VERSION=1.20.7
+ENV GOPATH=//usr/local/go
 ENV BIN_DIR=/opt/bin
 ENV PKG_DIR=/tmp/pkg
 
@@ -37,11 +38,11 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
         curl -LO https://go.dev/dl/go${GO_VERSION}.linux-arm64.tar.gz && \
         tar -C /usr/local -xzf go${GO_VERSION}.linux-arm64.tar.gz && \
-        rm go${GO_VERSION}.linux-arm64.tar.gz
+        rm go${GO_VERSION}.linux-arm64.tar.gz; \
     elif [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         curl -LO https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
         tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz && \
-        rm go${GO_VERSION}.linux-amd64.tar.gz
+        rm go${GO_VERSION}.linux-amd64.tar.gz; \
     fi
 
 ENV PATH=$PATH:/usr/local/go/bin
@@ -63,7 +64,6 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
 
 # Set PATH to include /usr/local/bin
 ENV PATH=$PATH:/usr/local/bin
-ENV PATH=$PATH:/usr/local/bin:$HOME/go/bin
 
 # Create a working directory
 WORKDIR ${BIN_DIR}
