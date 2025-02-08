@@ -1,12 +1,11 @@
 syntax = "proto3";
 
-package ktcloud.api.identity.user;
+package ktcloud.api.identity;
 
-option go_package = "github.com/choonho/ktcloudservice/proto";
+option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/identity;auth";
 
 import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
-import "google/api/http.proto";
 
 // AuthService 정의
 service Auth {

@@ -1,13 +1,12 @@
 syntax = "proto3";
 
-package ktcloud.api.identity.project;
+package ktcloud.api.identity;
 
-option go_package = "github.com/choonho/ktcloudservice/proto";
+option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/identity;project";
 
 import "google/api/annotations.proto";
-import "google/api/http.proto";
 
-service Project {
+service Projects {
   // Get a project by ID
   rpc GetProject (GetProjectRequest) returns (GetProjectResponse) {
     option (google.api.http) = {

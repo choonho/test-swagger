@@ -1,11 +1,10 @@
 syntax = "proto3";
 
-package ktcloud.api.compute.server;
+package ktcloud.api.compute;
 
-option go_package = "github.com/choonho/ktcloudservice/proto";
+option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/compute;server";
 
 import "google/api/annotations.proto";
-import "google/api/http.proto";
 
 // Server service definition
 service Servers {

@@ -1,11 +1,10 @@
 syntax = "proto3";
 
-package ktcloud.api.networking.vpc;
+package ktcloud.api.networking;
 
-option go_package = "github.com/choonho/ktcloudservice/proto";
+option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/networking;vpcs";
 
 import "google/api/annotations.proto";
-import "google/api/http.proto";
 
 
 // VPC API 서비스 정의
