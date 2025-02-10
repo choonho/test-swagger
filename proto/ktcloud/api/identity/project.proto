@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package ktcloud.api.identity;
+package ktcloud.api.identity.project;
 
-option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/identity;project";
+option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/identity/project";
 
 import "google/api/annotations.proto";
 
@@ -10,14 +10,14 @@ service Projects {
   // Get a project by ID
   rpc GetProject (GetProjectRequest) returns (GetProjectResponse) {
     option (google.api.http) = {
-      get: "/v1/project/{project_id}"
+      get: "/v3/project/{project_id}"
     };
   }
 
   // Create a new project
   rpc CreateProject (CreateProjectRequest) returns (CreateProjectResponse) {
     option (google.api.http) = {
-      post: "/v1/project"
+      post: "/v3/project"
       body: "*"
     };
   }
@@ -25,7 +25,7 @@ service Projects {
   // Delete a project by ID
   rpc DeleteProject (DeleteProjectRequest) returns (DeleteProjectResponse) {
     option (google.api.http) = {
-      delete: "/v1/project/{project_id}"
+      delete: "/v3/project/{project_id}"
     };
   }
 }

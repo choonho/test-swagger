@@ -1,15 +1,45 @@
 syntax = "proto3";
 
-package ktcloud.api.identity;
+package ktcloud.api.identity.user;
 
-option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/identity;user";
+option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/identity/user";
 
 import "google/api/annotations.proto";
 
 service Users {
+  // 사용자 조회 (단일)
   rpc GetUser (GetUserRequest) returns (GetUserResponse) {
     option (google.api.http) = {
-      get: "/v1/users/{user_id}"
+      get: "/v3/users/{user_id}"
+    };
+  }
+  // 모든 사용자 조회 (리스트)
+  rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {
+    option (google.api.http) = {
+      get: "/v3/users"
+    };
+  }
+
+  // 사용자 생성
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {
+    option (google.api.http) = {
+      post: "/v3/users"
+      body: "*"
+    };
+  }
+
+  // 사용자 업데이트
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {
+    option (google.api.http) = {
+      put: "/v3/users/{user_id}"
+      body: "*"
+    };
+  }
+
+  // 사용자 삭제
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {
+      delete: "/v3/users/{user_id}"
     };
   }
 }
@@ -23,3 +53,39 @@ message GetUserResponse {
   string name = 2;
   string email = 3;
 }
+
+message ListUsersRequest {}
+
+message ListUsersResponse {
+  repeated GetUserResponse users = 1;
+}
+
+message CreateUserRequest {
+  string user_id = 1;
+  string name = 2;
+  string email = 3;
+  string password = 4;
+}
+
+message CreateUserResponse {
+  string user_id = 1;
+}
+
+message UpdateUserRequest {
+  string user_id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message UpdateUserResponse {
+  string user_id = 1;
+}
+
+message DeleteUserRequest {
+  string user_id = 1;
+}
+
+message DeleteUserResponse {
+  string message = 1;
+}
+

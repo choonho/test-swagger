@@ -1,10 +1,11 @@
 syntax = "proto3";
 
-package ktcloud.api.identity;
+package ktcloud.api.identity.account;
 
-option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/identity;account";
+option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/identity/account";
 
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 
 // Account 정의
 service Accounts {
@@ -35,9 +36,15 @@ message Account {
   string account_id = 1;
   string email = 2;
   string name = 3;
-  string created_at = 4;
-  string updated_at = 5;
-  string status = 6;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  AccountStatus status = 6;
+}
+
+enum AccountStatus {
+  ACTIVE = 0;
+  INACTIVE = 1;
+  SUSPENDED = 2;
 }
 
 // 계정 생성 요청 및 응답

@@ -1,42 +1,60 @@
 syntax = "proto3";
 
-package ktcloud.api.networking;
+package ktcloud.api.networking.vpc;
 
-option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/networking;vpcs";
+option go_package = "github.com/choonho/ktcloudapis/ktcloud/api/networking/vpc";
 
 import "google/api/annotations.proto";
 
 
 // VPC API 서비스 정의
-service VPC {
+service VPCs {
   rpc CreateVPC(CreateVPCRequest) returns (VPCResponse) {
 	option (google.api.http) = {
 		post: "/v2/vpcs"
 		body: "*"
 		};
 	}
-  rpc DeleteVPC(DeleteVPCRequest) returns (VPCResponse);
-  rpc ListVPCs(ListVPCsRequest) returns (ListVPCsResponse);
-  rpc GetVPC(GetVPCRequest) returns (VPCResponse);
+  rpc DeleteVPC(DeleteVPCRequest) returns (DeleteVPCResponse) {
+    option (google.api.http) = {
+      delete: "/v2/vpcs/{vpc_id}"
+    };
+  }
+  rpc ListVPCs(ListVPCsRequest) returns (ListVPCsResponse) {
+    option (google.api.http) = {
+      get: "/v2/vpcs"
+    };
+  }
+  rpc GetVPC(GetVPCRequest) returns (VPCResponse) {
+    option (google.api.http) = {
+      get: "/v2/vpcs/{vpc_id}"
+    };
+  }
 }
 
 // VPC 메시지 정의
 message VPCResponse {
   string vpc_id = 1;
   string name = 2;
-  string cidr= 3;
+  string cidr = 3;
   string status = 4;
+  string project_id = 5;
+  string created_at = 6;
+  string updated_at = 7;
 }
 
 // 요청 및 응답 메시지 정의
 message CreateVPCRequest {
   string name = 1;
   string cidr = 2;
-  string project_id = 3;
 }
 
 message DeleteVPCRequest {
   string vpc_id = 1;
+}
+
+message DeleteVPCResponse {
+  string message = 1;
 }
 
 message ListVPCsRequest {}

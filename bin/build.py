@@ -121,35 +121,7 @@ def _make_go_mod(output_dir):
 
 
 def _make_build_environment_python(output_dir, code):
-    # Copy setup.py
-    src = os.path.join(TEMPLATE_DIR, 'python', 'setup.py.tmpl')
-    dst = os.path.join(output_dir, code, 'setup.py')
-
-    if not os.path.exists(dst):
-        shutil.copyfile(src, dst)
-
-    # Copy spaceone.__init__.py
-    src = os.path.join(TEMPLATE_DIR, 'python', 'spaceone.tmpl')
-    dst = os.path.join(output_dir, code, 'spaceone', '__init__.py')
-
-    if not os.path.exists(dst):
-        shutil.copyfile(src, dst)
-
-    # Copy spaceone.api.__init__.py
-    src = os.path.join(TEMPLATE_DIR, 'python', 'spaceone.api.tmpl')
-    dst = os.path.join(output_dir, code, 'spaceone', 'api', '__init__.py')
-
-    if not os.path.exists(dst):
-        shutil.copyfile(src, dst)
-
-    api_root_dir = os.path.join(output_dir, code, 'spaceone', 'api')
-    for root_dir, sub_dirs, files in os.walk(api_root_dir):
-        if os.path.basename(root_dir) != '__pycache__':
-            init_path = os.path.join(root_dir, '__init__.py')
-
-            if not os.path.exists(init_path):
-                Path(init_path).touch()
-
+    pass
 
 def _make_build_environment_go(output_dir, code):
     api_root_dir = os.path.join(output_dir, code, 'spaceone', 'api')
